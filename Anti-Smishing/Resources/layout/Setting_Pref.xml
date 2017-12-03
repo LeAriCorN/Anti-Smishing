@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory android:title="앱 정보" android:layout="@layout/Pref_Layout">
+    <Preference
+        android:key="App_ver"
+        android:title="앱 버전"
+        android:summary="0.1.0"/>
+    <Preference
+        android:key="Feedback"
+        android:title="문의하기"
+        android:icon="@drawable/email"
+        android:summary="lazerbear77@gmail.com">
+    </Preference>
+
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="설정">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/email"
+        android:key="Switch_ClipboardListen"
+        android:summary="클립보드 리스닝"
+        android:title="클립보드 리스너" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="Switch_TrueSite"
+        android:summaryOff="기능을 사용하지 않습니다"
+        android:summaryOn="기능을 사용하고 있습니다"
+        android:title="안전한 사이트 유도 (beta)" />
+  </PreferenceCategory>
+
+</PreferenceScreen>

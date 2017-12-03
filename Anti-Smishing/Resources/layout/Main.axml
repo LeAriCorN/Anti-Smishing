@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:id="@+id/MainLayout"
+    android:background="#1f98cf">
+    <LinearLayout
+        android:id="@+id/content1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageButton
+            android:src="@drawable/icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:id="@+id/btn_setting"
+            android:padding="0sp"
+            android:scaleType="centerCrop" />
+        <ImageView
+            android:src="@drawable/logo"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:id="@+id/img_main_logo" />
+        <EditText
+            android:inputType="textMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:textColor="#000000"
+            android:background="#f7f7f7"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:id="@+id/txt_input_url"
+            android:hint="URL을 입력하세요"
+            android:textColorHint="#999999" />
+        <Button
+            android:text="분석하기"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#142740"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="26sp"
+            android:id="@+id/btn_analyze" />
+    </LinearLayout>
 </LinearLayout>
