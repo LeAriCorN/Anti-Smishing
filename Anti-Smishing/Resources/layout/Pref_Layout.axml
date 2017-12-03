@@ -13,6 +13,6 @@
         android:layout_height="fill_parent"
         android:text="test"
         android:textSize="18sp"
-        android:textColor="#00ffff"
+        android:textColor="#4ac5fc"
         android:gravity="center" />
 </LinearLayout>

@@ -6,11 +6,12 @@
     <Preference
         android:key="App_ver"
         android:title="앱 버전"
+        android:icon="@drawable/icon_appver"
         android:summary="0.1.0"/>
     <Preference
         android:key="Feedback"
         android:title="문의하기"
-        android:icon="@drawable/email"
+        android:icon="@drawable/icon_plane"
         android:summary="lazerbear77@gmail.com">
     </Preference>
 
@@ -20,13 +21,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/email"
+        android:icon="@drawable/icon_listen"
         android:key="Switch_ClipboardListen"
         android:summary="클립보드 리스닝"
         android:title="클립보드 리스너" />
     <SwitchPreference
         android:defaultValue="true"
         android:key="Switch_TrueSite"
+        android:icon="@drawable/icon_true"
         android:summaryOff="기능을 사용하지 않습니다"
         android:summaryOn="기능을 사용하고 있습니다"
         android:title="안전한 사이트 유도 (beta)" />

@@ -3,18 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/MainLayout"
-    android:background="#1f98cf">
+    android:background="#568cd5">
     <LinearLayout
         android:id="@+id/content1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <ImageButton
-            android:src="@drawable/icon"
+            android:src="@drawable/icon_setting"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:id="@+id/btn_setting"
+            android:background="@android:color/transparent"
             android:padding="0sp"
             android:scaleType="centerCrop" />
         <ImageView
