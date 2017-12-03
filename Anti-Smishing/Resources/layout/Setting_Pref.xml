@@ -16,7 +16,7 @@
 
   </PreferenceCategory>
 
-  <PreferenceCategory android:title="설정">
+  <PreferenceCategory android:title="설정" android:layout="@layout/Pref_Layout">
 
     <SwitchPreference
         android:defaultValue="true"
