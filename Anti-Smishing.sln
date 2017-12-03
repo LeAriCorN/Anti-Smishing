@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anti-Smishing", "Anti-Smishing\Anti-Smishing.csproj", "{7F35BA6D-695C-4E8C-8687-648291A8250C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F35BA6D-695C-4E8C-8687-648291A8250C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1E00943-8E22-4F3C-AC5B-B1ED6A823537}
+	EndGlobalSection
+EndGlobal
