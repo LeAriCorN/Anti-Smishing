@@ -21,6 +21,22 @@ namespace Anti_Smishing
         public static string TrueURL;
         private static string sqlinfo = "Server=192.168.144.33;Port=3306;database=antismishing;User Id=App;Password=1123;charset=utf8";
 
+        public static string SendScanId(string ScanId)
+        {
+            new I18N.West.CP1250();
+
+            string temp;
+            MySqlConnection antisql = new MySqlConnection(sqlinfo);
+
+            antisql.Open();
+            MySqlCommand sqlcomd1 = new MySqlCommand("select ScanId from antismishing where ScanId='" + ScanId + "'", antisql);
+            temp = sqlcomd1.ExecuteScalar().ToString();
+
+            antisql.Close();
+
+            return temp;
+        }
+
         public static string GetURL(string ScanId)
         {
             new I18N.West.CP1250();
@@ -34,7 +50,7 @@ namespace Anti_Smishing
             return TrueURL;
         }
 
-        public void PostScanId(string ScanId)
+        public static void PostScanId(string ScanId)
         {
             new I18N.West.CP1250();
 

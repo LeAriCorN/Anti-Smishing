@@ -5,7 +5,6 @@ using Android.OS;
 using Android.Content;
 using Android.Preferences;
 using Android.Support.V7.App;
-using Android.Content.PM;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -206,6 +205,77 @@ namespace Anti_Smishing
 
             aTitle = "분석 결과";
 
+            if (URL.Text == "test.com")
+            {
+                if (fcnt >= 1)
+                {
+                    aMsg = total + "개에서 " + fcnt + "개가 악성으로 진단했습니다";
+                }
+                else
+                {
+                    aMsg = "안전한 URL 입니다";
+                }
+
+                builder.SetTitle(aTitle);
+                builder.SetMessage(aMsg);
+                builder.SetIcon(Resource.Drawable.icon_talk);
+                builder.SetCancelable(true);
+                builder.SetPositiveButton("확인", delegate {
+                    builder.SetTitle("원본 사이트 안내");
+                    builder.SetMessage("이 URL의 원본 사이트로 안내 받으실 수 있습니다. 아래 이동버튼을 누르면 원본 사이트로 이동합니다");
+                    builder.SetIcon(Resource.Drawable.icon_talk);
+                    builder.SetCancelable(true);
+                    builder.SetPositiveButton("확인", delegate { });
+                    builder.SetNeutralButton("안전한 사이트로 이동", delegate {
+                        var uri = Android.Net.Uri.Parse("http://lms.dju.ac.kr");
+                        var intent = new Intent(Intent.ActionView, uri);
+                        StartActivity(intent);
+                    });
+                    builder.Show();
+                });
+                builder.Show();
+
+                
+
+            }
+            else
+            {
+                if (fcnt >= 1)
+                {
+                    aMsg = total + "개에서 " + fcnt + "개가 악성으로 진단했습니다";
+                }
+                else
+                {
+                    aMsg = "안전한 URL 입니다";
+                }
+
+                builder.SetTitle(aTitle);
+                builder.SetMessage(aMsg);
+                builder.SetIcon(Resource.Drawable.icon_talk);
+                builder.SetCancelable(true);
+                builder.SetPositiveButton("확인", delegate { });
+                builder.Show();
+            }
+        }
+
+        private bool isUrlReal(string source)
+        {
+            return Android.Util.Patterns.WebUrl.Matcher(source).Matches();
+        }
+
+        private void URL_Repot()
+        {
+            string aTitle = ""; string aMsg = "";
+            EditText URL = FindViewById<EditText>(Resource.Id.txt_input_url);
+
+            aTitle = "분석 결과";
+            
+
+            if (Database.SendScanId(ScanId) == null)
+            {
+                Database.PostScanId(ScanId);
+            }
+
             if (fcnt >= 1)
             {
                 aMsg = total + "개에서 " + fcnt + "개가 악성으로 진단했습니다";
@@ -213,33 +283,18 @@ namespace Anti_Smishing
             else
             {
                 aMsg = "안전한 URL 입니다";
-            }            
+            }
 
             builder.SetTitle(aTitle);
             builder.SetMessage(aMsg);
             builder.SetIcon(Resource.Drawable.icon_talk);
             builder.SetCancelable(true);
-
-            if (URL.Text=="test.com")
-            {
-                builder.SetNeutralButton("안전한 사이트로 이동", delegate {
-                    var uri = Android.Net.Uri.Parse("http://lms.dju.ac.kr");
-                    var intent = new Intent(Intent.ActionView, uri);
-                    StartActivity(intent);
-                });
-            }
-
             builder.SetPositiveButton("확인", delegate { });
             builder.Show();
 
         }
 
-        private bool isUrlReal(string source)
-        {
-            return Android.Util.Patterns.WebUrl.Matcher(source).Matches();
-        }
-        
-        
+
     }
 }
 
