@@ -11,8 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+//FlipProgress API
 using Com.Taishi.Flipprogressdialog;
 
+//VirusTotal API
 using VirusTotalNET;
 using VirusTotalNET.Results;
 using VirusTotalNET.Objects;
