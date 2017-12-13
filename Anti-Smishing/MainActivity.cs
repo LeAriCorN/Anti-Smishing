@@ -1,22 +1,27 @@
-﻿using Android.App;
+﻿
+using Android.App;
 using Android.Widget;
 using Android.OS;
-
-using Android.Support.Design;
-using System.Threading;
-using System.Threading.Tasks;
-using VirusTotalNET;
-using VirusTotalNET.Results;
-using VirusTotalNET.ResponseCodes;
-using System.Collections.Generic;
-using VirusTotalNET.Objects;
 using Android.Content;
 using Android.Preferences;
+using Android.Support.V7.App;
+using Android.Content.PM;
+
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Com.Taishi.Flipprogressdialog;
+
+using VirusTotalNET;
+using VirusTotalNET.Results;
+using VirusTotalNET.Objects;
+using VirusTotalNET.ResponseCodes;
 
 namespace Anti_Smishing
 {
-    [Activity(Label = "Anti_Smishing")]
-    public class MainActivity : Activity
+    [Activity(Label = "Anti_Smishing", Theme = "@style/Theme.AppCompat.NoActionBar")]
+    public class MainActivity : AppCompatActivity
     {
         private static string ScanUrl;
         static bool hasUrlBeenScannedBefore;
@@ -25,22 +30,42 @@ namespace Anti_Smishing
         public static int total;
         public static string ScanId;
 
-        private bool Clip_onoff;
+        private bool Copy_onoff;
         private bool True_onoff;
-        
+        private bool Listen_onoff;
+
+        List<Java.Lang.Integer> imgList = new List<Java.Lang.Integer>();
+        private static Android.App.AlertDialog.Builder builder;
+        private static Toast mtoast;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            mtoast = Toast.MakeText(this, "", ToastLength.Short);
-            builder = new AlertDialog.Builder(this);
             SetContentView(Resource.Layout.Main);
-            
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Android.App.Application.Context);
-            Clip_onoff = prefs.GetBoolean("Switch_ClipboardListen", true);
-            True_onoff = prefs.GetBoolean("Switch_TrueSite", true);
 
-            if (Clip_onoff == true)
+            mtoast = Toast.MakeText(this, "", ToastLength.Short);
+            builder = new Android.App.AlertDialog.Builder(this,Resource.Style.AlertDialogStyle);
+
+            imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading1));
+            imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading2));
+            
+
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Android.App.Application.Context);
+            Copy_onoff = prefs.GetBoolean("Switch_ClipboardListen", true);
+            True_onoff = prefs.GetBoolean("Switch_TrueSite", true);
+            Listen_onoff = prefs.GetBoolean("Switch_KnowCliphasURL", true);
+
+            if (Listen_onoff == true)
+            {
+                StartService(new Android.Content.Intent(this, typeof(Go2AppSvc)));
+            }
+            else
+            {
+                StopService(new Android.Content.Intent(this, typeof(Go2AppSvc)));
+            }
+
+
+            if (Copy_onoff == true)
             {
                 ClipboardAutoCopy();
             }
@@ -66,17 +91,19 @@ namespace Anti_Smishing
 
             if (isUrlReal(ScanUrl))
             {
-                ProgressDialog progress = new ProgressDialog(this);
-                progress.Indeterminate = true;
-                progress.SetMessage("URL을 분석중입니다");
-                progress.SetCancelable(true);
-                progress.Show();
+                FlipProgressDialog dlg = new FlipProgressDialog();
+                dlg.SetImageList(imgList);
+                dlg.SetOrientation("rotationY");
+                dlg.SetBackgroundAlpha(0);
+                dlg.SetDimAmount(0.6f);
+                dlg.SetDuration(1600);
+                dlg.Show(FragmentManager, "");
 
                 new Thread(new ThreadStart(delegate
                 {
                     runAPI().Wait();
 
-                    RunOnUiThread(() => { progress.Hide(); URL_Repo();});
+                    RunOnUiThread(() => { dlg.Dismiss(); URL_Repo();});
 
                 })).Start();
             }
@@ -88,6 +115,7 @@ namespace Anti_Smishing
 
            
         }
+        
 
         private void ClipboardAutoCopy()
         {
@@ -172,16 +200,36 @@ namespace Anti_Smishing
         private void URL_Repo()
         {
             string aTitle = ""; string aMsg = "";
+            EditText URL = FindViewById<EditText>(Resource.Id.txt_input_url);
 
-            aTitle = "결과 안내";
-            aMsg = "탐지 결과 : " + fcnt + " / " + total + "\n" 
-                + "" + total + "개의 검사 중 " + fcnt + "개에서 악성으로 판정\n"+ScanId;
+            aTitle = "분석 결과";
+
+            if (fcnt >= 1)
+            {
+                aMsg = total + "개에서 " + fcnt + "개가 악성으로 진단했습니다";
+            }
+            else
+            {
+                aMsg = "안전한 URL 입니다";
+            }            
 
             builder.SetTitle(aTitle);
             builder.SetMessage(aMsg);
+            builder.SetIcon(Resource.Drawable.icon_talk);
             builder.SetCancelable(true);
+
+            if (URL.Text=="test.com")
+            {
+                builder.SetNeutralButton("안전한 사이트로 이동", delegate {
+                    var uri = Android.Net.Uri.Parse("http://lms.dju.ac.kr");
+                    var intent = new Intent(Intent.ActionView, uri);
+                    StartActivity(intent);
+                });
+            }
+
             builder.SetPositiveButton("확인", delegate { });
             builder.Show();
+
         }
 
         private bool isUrlReal(string source)
@@ -189,8 +237,7 @@ namespace Anti_Smishing
             return Android.Util.Patterns.WebUrl.Matcher(source).Matches();
         }
         
-        private static Toast mtoast;
-        private static AlertDialog.Builder builder;
+        
     }
 }
 

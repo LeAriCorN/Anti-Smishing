@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:background="#568cd5">
+    android:background="#56add5">
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

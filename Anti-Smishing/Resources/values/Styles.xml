@@ -4,9 +4,9 @@
     <item name="android:windowBackground">@drawable/Splash</item>
     <item name="android:windowNoTitle">true</item>
   </style>
-  <style name="AlertDialogStylez" parent="@android:style/Theme.Material.Dialog.Alert">
+  <style name="AlertDialogStyle" parent="@android:Theme.Material.Dialog.Alert">
     <item name="android:colorAccent">#5CFFC4</item>
-    <item name="android:textColorPrimary">#ffffff</item>
-    <item name="android:background">#294d7f</item>
+    <item name="android:textColorPrimary">#f7f7f7</item>
+    <item name="android:background">#142740</item>
   </style>
 </resources>

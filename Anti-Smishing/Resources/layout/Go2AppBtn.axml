@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout1">
+  
+    <Button
+        android:text="URL 분석하기    "
+        android:textSize="22sp"
+        android:textColor="#f7f7f7"
+        android:background="@drawable/round_btn"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:id="@+id/btn_Go2App"
+        android:drawableLeft="@drawable/icon_dot_small"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp" />
+  
+</RelativeLayout>
