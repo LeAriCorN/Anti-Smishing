@@ -37,10 +37,19 @@ namespace Anti_Smishing
         public void PostScanId(string ScanId)
         {
             new I18N.West.CP1250();
+
+            string temp;
             MySqlConnection antisql = new MySqlConnection(sqlinfo);
 
             antisql.Open();
-            MySqlCommand sqlcomd = new MySqlCommand("select URL from antismishing where ScanId='" + ScanId + "'", antisql);
+            MySqlCommand sqlcomd1 = new MySqlCommand("select ScanId from antismishing where ScanId='" + ScanId + "'", antisql);
+            temp = sqlcomd1.ExecuteScalar().ToString();
+
+            if (ScanId==null)
+            {
+                MySqlCommand sqlcomd2 = new MySqlCommand("insert into antismishing (" + ScanId + ") VALUES('" + ScanId + "')", antisql);
+            }
+                        
             antisql.Close();
 
         }
