@@ -24,6 +24,7 @@ namespace Anti_Smishing
     [Activity(Label = "Anti_Smishing", Theme = "@style/Theme.AppCompat.NoActionBar")]
     public class MainActivity : AppCompatActivity
     {
+        //바이러스 토탈 API 변수
         private static string ScanUrl;
         static bool hasUrlBeenScannedBefore;
 
@@ -31,10 +32,12 @@ namespace Anti_Smishing
         public static int total;
         public static string ScanId;
 
+        //설정 변수 불값
         private bool Copy_onoff;
         private bool True_onoff;
         private bool Listen_onoff;
 
+        //플립 API 이미지 리스트
         List<Java.Lang.Integer> imgList = new List<Java.Lang.Integer>();
         private static Android.App.AlertDialog.Builder builder;
         private static Toast mtoast;
@@ -50,12 +53,13 @@ namespace Anti_Smishing
             imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading1));
             imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading2));
             
-
+            //기본 설정 프레퍼런스 값 로딩
             ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Android.App.Application.Context);
             Copy_onoff = prefs.GetBoolean("Switch_ClipboardListen", true);
             True_onoff = prefs.GetBoolean("Switch_TrueSite", true);
             Listen_onoff = prefs.GetBoolean("Switch_KnowCliphasURL", true);
 
+            //서비스 온오프
             if (Listen_onoff == true)
             {
                 StartService(new Android.Content.Intent(this, typeof(Go2AppSvc)));
@@ -65,7 +69,7 @@ namespace Anti_Smishing
                 StopService(new Android.Content.Intent(this, typeof(Go2AppSvc)));
             }
 
-
+            //자동 복사 붙여넣기
             if (Copy_onoff == true)
             {
                 ClipboardAutoCopy();
@@ -266,31 +270,48 @@ namespace Anti_Smishing
         private void URL_Repot()
         {
             string aTitle = ""; string aMsg = "";
+            string Url = "";
             EditText URL = FindViewById<EditText>(Resource.Id.txt_input_url);
 
             aTitle = "분석 결과";
             
-
-            if (Database.SendScanId(ScanId) == null)
-            {
-                Database.PostScanId(ScanId);
-            }
-
             if (fcnt >= 1)
             {
+                Url=Database.GetURL(ScanId);
+
                 aMsg = total + "개에서 " + fcnt + "개가 악성으로 진단했습니다";
+
+                builder.SetTitle(aTitle);
+                builder.SetMessage(aMsg);
+                builder.SetIcon(Resource.Drawable.icon_talk);
+                builder.SetCancelable(true);
+                builder.SetPositiveButton("확인", delegate {
+                    builder.SetTitle("공식 사이트 안내");
+                    builder.SetMessage("이 URL의 원래 사이트로 안내 받으실 수 있습니다. 아래 이동버튼을 누르면 본래 사이트로 이동합니다");
+                    builder.SetIcon(Resource.Drawable.icon_talk);
+                    builder.SetCancelable(true);
+                    builder.SetPositiveButton("확인", delegate { });
+                    builder.SetNeutralButton("공식 사이트로 이동", delegate {
+                        var uri = Android.Net.Uri.Parse(Url);
+                        var intent = new Intent(Intent.ActionView, uri);
+                        StartActivity(intent);
+                    });
+                    builder.Show();
+                });
+                builder.Show();
             }
             else
             {
                 aMsg = "안전한 URL 입니다";
-            }
 
-            builder.SetTitle(aTitle);
-            builder.SetMessage(aMsg);
-            builder.SetIcon(Resource.Drawable.icon_talk);
-            builder.SetCancelable(true);
-            builder.SetPositiveButton("확인", delegate { });
-            builder.Show();
+                builder.SetTitle(aTitle);
+                builder.SetMessage(aMsg);
+                builder.SetIcon(Resource.Drawable.icon_talk);
+                builder.SetCancelable(true);
+                builder.SetPositiveButton("확인", delegate { });
+                builder.Show();
+            }
+                     
 
         }
 
