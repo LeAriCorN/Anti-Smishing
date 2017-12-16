@@ -46,14 +46,15 @@ namespace Anti_Smishing
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
-
+            
+            //토스트 메세지, 얼럿 다이얼로그 미리 생성
             mtoast = Toast.MakeText(this, "", ToastLength.Short);
             builder = new Android.App.AlertDialog.Builder(this,Resource.Style.AlertDialogStyle);
 
             imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading1));
             imgList.Add(Java.Lang.Integer.ValueOf(Resource.Drawable.loading2));
             
-            //기본 설정 프레퍼런스 값 로딩
+            //기본 설정 프레퍼런스 값 로딩, Setting에서 설정한 값 넘겨받기.
             ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Android.App.Application.Context);
             Copy_onoff = prefs.GetBoolean("Switch_ClipboardListen", true);
             True_onoff = prefs.GetBoolean("Switch_TrueSite", true);
@@ -83,6 +84,7 @@ namespace Anti_Smishing
 
         }
 
+        //버튼 클릭 이벤트
         private void Btn_setting_Click(object sender, System.EventArgs e)
         {
             StartActivity(typeof(Setting));
@@ -104,6 +106,7 @@ namespace Anti_Smishing
                 dlg.SetDuration(1600);
                 dlg.Show(FragmentManager, "");
 
+                //쓰레드를 이용 API 작동
                 new Thread(new ThreadStart(delegate
                 {
                     runAPI().Wait();
@@ -121,7 +124,7 @@ namespace Anti_Smishing
            
         }
         
-
+        //클립보드 자동 카피시 플레인 텍스트만 추출
         private void ClipboardAutoCopy()
         {
             EditText upeditor = FindViewById<EditText>(Resource.Id.txt_input_url);
@@ -165,7 +168,7 @@ namespace Anti_Smishing
 
 
 
-            //If the url has been scanned before, the results are embedded inside the report.
+            //바이러스 토탈에서 과거 분석 내역 있으면 과거 분석 내역 갖고오기
             if (hasUrlBeenScannedBefore)
             {
                 PrintScan(urlReport);
@@ -179,6 +182,7 @@ namespace Anti_Smishing
             }
         }
 
+        //URL 분석결과중 ScanId, 총 분석한 엔진갯수 갖고오기
         private static void PrintScan(UrlReport urlReport)
         {
             int temp1 = 0;
@@ -262,11 +266,13 @@ namespace Anti_Smishing
             }
         }
 
+        //URL이 맞는지 확인
         private bool isUrlReal(string source)
         {
             return Android.Util.Patterns.WebUrl.Matcher(source).Matches();
         }
 
+        //결과값 다이얼로그로 내보내기
         private void URL_Repot()
         {
             string aTitle = ""; string aMsg = "";
@@ -286,12 +292,15 @@ namespace Anti_Smishing
                 builder.SetIcon(Resource.Drawable.icon_talk);
                 builder.SetCancelable(true);
                 builder.SetPositiveButton("확인", delegate {
+
+                    //확인을 눌렀을때 새로운 다이얼로그 얼럿 생성
                     builder.SetTitle("공식 사이트 안내");
                     builder.SetMessage("이 URL의 원래 사이트로 안내 받으실 수 있습니다. 아래 이동버튼을 누르면 본래 사이트로 이동합니다");
                     builder.SetIcon(Resource.Drawable.icon_talk);
                     builder.SetCancelable(true);
                     builder.SetPositiveButton("확인", delegate { });
                     builder.SetNeutralButton("공식 사이트로 이동", delegate {
+                        //인텐트로 Url 접속 실행
                         var uri = Android.Net.Uri.Parse(Url);
                         var intent = new Intent(Intent.ActionView, uri);
                         StartActivity(intent);

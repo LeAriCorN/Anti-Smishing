@@ -20,25 +20,13 @@ namespace Anti_Smishing
     {
         public static string TrueURL;
         private static string sqlinfo = "Server=192.168.144.33;Port=3306;database=antismishing;User Id=App;Password=1123;charset=utf8";
+        //db 연결 설정
 
-        public static string SendScanId(string ScanId)
-        {
-            new I18N.West.CP1250();
 
-            string temp;
-            MySqlConnection antisql = new MySqlConnection(sqlinfo);
-
-            antisql.Open();
-            MySqlCommand sqlcomd1 = new MySqlCommand("select ScanId from antismishing where ScanId='" + ScanId + "'", antisql);
-            temp = sqlcomd1.ExecuteScalar().ToString();
-
-            antisql.Close();
-
-            return temp;
-        }
-
+        //DB에서 URL 값 가져오기
         public static string GetURL(string ScanId)
         {
+            //db 통신간에 사용할때 문자 인코딩 방식은 I18N 사용
             new I18N.West.CP1250();
             MySqlConnection antisql = new MySqlConnection(sqlinfo);
 
@@ -50,6 +38,7 @@ namespace Anti_Smishing
             return TrueURL;
         }
 
+        //ScanId 등록하기
         public static void PostScanId(string ScanId)
         {
             new I18N.West.CP1250();

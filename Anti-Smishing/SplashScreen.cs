@@ -20,6 +20,8 @@ namespace Anti_Smishing
         {
             base.OnCreate(savedInstanceState);
 
+            //스플래시 화면용. 액티비티를 잠시 재워놓음.
+
             Thread.Sleep(450);
             StartActivity(typeof(MainActivity));
             Finish();

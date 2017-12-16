@@ -26,9 +26,10 @@ namespace Anti_Smishing
 
             gotoapp.Click += Gotoapp_Click;
 
+            //버튼이 떴을때 멈추는 시간 설정. 기본 1.5초.
             new Thread(new ThreadStart(delegate
             {
-                Thread.Sleep(1123);
+                Thread.Sleep(1500);
                 RunOnUiThread(() => { this.Finish(); });
             })).Start();
 

@@ -24,6 +24,8 @@ namespace Anti_Smishing
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
+
+            //클립보드매니저를 이용, 시스템에서 클립보드가 변경됐을때 알림.
             ClipboardManager clip = (ClipboardManager)GetSystemService(Context.ClipboardService);
             clip.PrimaryClipChanged += URLinClip;
 

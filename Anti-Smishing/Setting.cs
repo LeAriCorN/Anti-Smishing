@@ -19,10 +19,10 @@ namespace Anti_Smishing
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Setting);
+
+            //프레그먼트매니저를 통한 프레퍼런스세팅 불러오기
             FragmentManager.BeginTransaction().Add(Resource.Id.Pref_Frame, new Setting_Fragment()).Commit();
             
-
-            // Create your application here
         }
     }
 }
